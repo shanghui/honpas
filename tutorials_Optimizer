@@ -1,0 +1,27 @@
+Here I will show how to use Optimizer in siesta-3.2 to optimize basis set. 
+
+(0) install siesta3.2
+
+    cd Obj
+    sh ../Src/configue
+    sh ../Src/Obj_setup.sh
+    make
+
+
+(1) a 'best' basis set to make enengy minimize
+
+cd /home/shang/shanghui_like/code/siesta/siesta-3.2/Util/Optimizer/Examples/Basis_Optim 
+vi run_script.sh ( change the "SIESTA= " line) 
+../../simplex |tee out
+
+
+
+
+(2) a 'best' basis set to make (bone-band_exp)^2  minimize  
+
+cd /home/shang/shanghui_like/code/siesta/siesta-3.2/Util/Optimizer/Examples/Basis-Optim-Bond
+vi run_script.sh
+                 ( <1> change the "SIESTA= " line 
+                   <2> change the "awk 'BEGIN {bond=0.9584} {print sqrt(($3-bond)**2)}) " line 
+                       to "awk 'BEGIN {bond=0.9584} {print sqrt(($3-bond)^2)}) ")
+../../swarm |tee out
