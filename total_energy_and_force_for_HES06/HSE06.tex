@@ -1,0 +1,92 @@
+\documentclass[aps,preprint,12pt]{revtex4-1}
+%\documentclass[aip,preprint,12pt]{revtex4-1}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+\begin{document}
+
+\title{HSE06 functional in siesta}
+\author{ Honghui Shang}
+
+\affiliation{FHI-Berlin}
+
+\date{\today}
+
+\begin{abstract}
+The total energy and force equations for HSE06 functional in siesta is written here. By this way, further extension (mp2, hessian) can be done
+based on this. 
+\end{abstract}
+\maketitle
+
+
+\section{METHODS}
+\subsection{HSE total energy}
+In a general fore, no matter what basis set you use or what interaction you use to 
+describe the electron-nuclue interaction, we have 
+
+
+
+
+\subsection{HSE force}
+For un-spin-polarized systems (nspin=1), the Gradient is divided into two terms:
+\begin{equation}
+ \dfrac{\partial{E_{HFX}}}{\partial{R_{I}}}
+=-\frac{1}{2}\sum_{\mu\lambda}\sum_{\mathbf{G}}\dfrac{P_{\mu\lambda}^{\mathbf{G}}}{\partial{R_{I}}}\sum_{\nu\sigma}\sum_{\mathbf{N,H}}P_{\nu\sigma}^\mathbf{H-N}\mathbf{[(\chi_{\mu}^{0}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\chi_{\sigma}^{H})]}
+\end{equation}
+\[
+ -\frac{1}{4}\sum_{\mu\lambda}\sum_{\mathbf{G}}P_{\mu\lambda}^{\mathbf{G}}\sum_{\nu\sigma}\sum_{\mathbf{N,H}}P_{\nu\sigma}^\mathbf{H-N}\mathbf{ \dfrac{\partial{(\chi_{\mu}^{0}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\chi_{\sigma}^{H})}}{\partial{R_{I}}} }
+\]
+
+
+The first term can be calculated in the orthogonalization force:
+\begin{equation}
+ \sum_{\mu\nu}{F_{\mu\nu}\dfrac{\partial{P_{\mu\nu}}}{\partial{R_{I}}}}=
+-\sum_{\mu\nu}{E_{\mu\nu}\dfrac{\partial{S_{\mu\nu}}}{\partial{R_{I}}}}
+\end{equation}
+where
+\[
+ E_{\mu\nu}=\sum_{i}{c_{\mu i}c_{\nu i}n_i\varepsilon{i} }
+\]
+
+
+The second term need the gradient of ERIs. In the following, we will deal with this term: 
+\[
+ F_{\mathbf{R_I}}=\frac{1}{4}\sum_{\mu\lambda}\sum_{\mathbf{G}}P_{\mu\lambda}^{\mathbf{G}}\sum_{\nu\sigma}\sum_{\mathbf{N,H}}P_{\nu\sigma}^\mathbf{H-N}\mathbf{ \dfrac{\partial{(\chi_{\mu}^{0}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\chi_{\sigma}^{H})}}{\partial{R_{I}}} }
+\]
+\[
+ =\frac{1}{4}\sum_{\mu\lambda}\sum_{\mathbf{G}}P_{\mu\lambda}^{\mathbf{G}}\sum_{\nu\sigma}\sum_{\mathbf{N,H}}P_{\nu\sigma}^\mathbf{H-N}
+\]
+\begin{equation}
+\times\mathbf{[ (\dfrac{\chi_{\mu}^{0}}{\partial{R_{I}}}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\chi_{\sigma}^{H})
++(\chi_{\mu}^{0}\dfrac{\chi_{\nu}^{N}}{\partial{R_{I}}}|\chi_{\lambda}^{G}\chi_{\sigma}^{H}) 
++(\chi_{\mu}^{0}\chi_{\nu}^{N}|\dfrac{\chi_{\lambda}^{G}}{\partial{R_{I}}}\chi_{\sigma}^{H}) 
++(\chi_{\mu}^{0}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\dfrac{\chi_{\sigma}^{H}}{\partial{R_{I}}})   ]}
+\end{equation}
+
+
+
+
+\section{CONCLUSIONS}
+
+\begin{acknowledgments}
+
+\end{acknowledgments}
+
+
+\begin{thebibliography} {99}
+
+\bibitem{Parr} R. G. Parr and W. Yang, \emph{Density Functional Theory of Atoms and Molecules }(Oxford University Press, New York,1989)
+
+\bibitem{DFT_1} P. Hohenberg and W. Kohn, Phys. Rev. B {\bf 136}, 864 (1964).
+\bibitem{DFT_2} W. Kohn and L. Sham, Phys. Rev. {\bf 140}, 1133 (1965).
+
+
+\end{thebibliography}
+
+
+
+\end{document}
