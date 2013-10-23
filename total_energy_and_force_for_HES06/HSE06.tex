@@ -7,31 +7,104 @@
 \usepackage{algorithmic}
 \usepackage{algorithm}
 
+
+
 \begin{document}
 
 \title{HSE06 functional in siesta}
 \author{ Honghui Shang}
+\email[Electronic address:\;]{shang@fhi-berlin.mpg.de}
 
-\affiliation{FHI-Berlin}
+\affiliation{Fritz-Haber-Institut der Max-Planck-Gesellschaft,
+  Faradayweg 4-6, D-14195 Berlin-Dahlem, Germany}
 
 \date{\today}
 
 \begin{abstract}
-The total energy and force equations for HSE06 functional in siesta is written here. By this way, further extension (mp2, hessian) can be done
-based on this. 
+The total energy and force equations for HSE06 functional in siesta is written here. By this way, further
+ extension (mp2, hessian) can be done in my coming work. Here we follow the Kohn-Sham approach \cite{DFT_KS} to
+derive our equations.  The Kohn-Sham ansatz( A mathematical assumption, especially about the form of an 
+unknown function, which is made in order to facilitate solution of an equation or other problem) is to replace the difficult interaction many-body system with this Hamiltonian 
+\begin{equation}
+\hat{H}=-\dfrac{1}{2}\sum_{i}\bigtriangledown^2_{i}-\sum_{i}\sum_{I}\dfrac{Z_I}{|\mathbf{r_i}-\mathbf{R_I}|}
++\dfrac{1}{2}\sum_{i}\sum_{j\neq i}\dfrac{1}{|\mathbf{r_i}-\mathbf{r_j}|}
++\dfrac{1}{2}\sum_{I}\sum_{J\neq I}\dfrac{Z_I Z_J}{|\mathbf{R_I}-\mathbf{R_J}|}
+\end{equation} into a independent-particle problem. What they have been done is to define a ground state
+energy $E_{KS}$, and then derive a Kohn-Sham Sch\"{o}dinger-like equation using Lagrange multipliers or
+Rayleigh-Ritz principle.  In this paper we will show the detailed formula derivation.
+
 \end{abstract}
 \maketitle
 
 
 \section{METHODS}
 \subsection{HSE total energy}
-In a general fore, no matter what basis set you use or what interaction you use to 
-describe the electron-nuclue interaction, we have 
+Kohn-Sham wrote the total energy of a many-body system as:
+\[
+E_{KS}=-\dfrac{1}{2}\sum_{i}<\phi_i|\nabla^2|\phi_i>-\int {\rho(\mathbf{r})  \sum_{I}\dfrac{Z_{I}}{|\mathbf{r}-\mathbf{R}_{I}|}  d\mathbf{r}}+
+\]
+\begin{equation}
+ \dfrac{1}{2}\int \int {\dfrac{\rho(\mathbf{r}) \rho(\mathbf{r'}) }{|\mathbf{r}-\mathbf{r'} |}  d\mathbf{r}  d\mathbf{r'}} +\dfrac{1}{2}\sum_{I}\sum_{J}{\dfrac{Z_{I} Z_{J}}{|\mathbf{R}_{I}-\mathbf{R}_{J} |} }+ E_{xc}(\rho)
+\label{eq:E_KS}
+\end{equation}
+\begin{equation}
+= T+E_{ext}+E_{hartree}+E_{IJ}+E_{xc}
+\end{equation}
+So all the many-body effect go to $E_{xc}(\rho)$ term. Using Lagrange multipliers, we have 
+\begin{equation}
+\dfrac{\delta [E_{KS}-\sum_{i}\epsilon_{i}(<\phi_i|\phi_i> -1)] }
+{\delta \phi_i} =  0 =
+\end{equation}
+\begin{equation}
+\dfrac{\delta T}{\delta \phi_i} + 
+[\dfrac{\delta E_{ext}}{\delta \rho(r)} + \dfrac{\delta E_{hartree}}{\delta \rho(r)} +  \dfrac{\delta E_{xc}}{\delta \rho(r)} ] 
+\dfrac{\delta \rho(r)}{\delta \phi_i}-\epsilon_{i} \phi_i = 
+\end{equation}
+\begin{equation}
+ -\dfrac{1}{2}\nabla^2 \phi_i + 
+[V_{ext}(r)+V_{hartree}+V_{xc}] \phi_i -\epsilon_{i} \phi_i = 0
+\label{eq:ks-equation}
+\end{equation}
+
+So we get Kohn-Sham Sch\"{o}dinger-like equation in Eq. \ref{eq:ks-equation}.
+
+In siesta, using psedopotential, so the $E_{KS}$ in siesta is written as Eq. 53 of siesta-2002 paper, again, it equals $E_{KS}$ we get before:
+\begin{equation}
+E_{KS}= T + E_{ext}+ E_{hartree} + E_{IJ}+E_{xc} 
+\end{equation} 
+
+So for HSE total energy, we only add$ E_{HSE}$ to $E_{xc}$ part. 
+The expression for HSE06 is given by: 
+\begin{equation}
+ E_{xc}^{HSE}=\dfrac{1}{4}E_{x}^{SR-HF}(\omega)+\dfrac{3}{4}E_{x}^{SR-PBE}(\omega)
++E_{x}^{LR-PBE}(\omega)+E_{c}^{PBE}
+\end{equation} 
+
+where  $\omega$ =$0.11 Bohr^{-1}$.
 
 
 
+For un-spin-polarized systems (nspin=1), the Hartree-Fock exchange matrix element is defined as (here the 1/2 is coming from exchange interaction, when we use slater-determinant to get HF total energy): 
+\begin{equation}
+  [V^{X}]_{\mu\lambda}^{\mathbf{G}}=-\frac{1}{2}\sum_{\nu\sigma}\sum_{\mathbf{N,H}}P_{\nu\sigma}^\mathbf{H-N}\mathbf{[(\chi_{\mu}^{0}\chi_{\nu}^{N}|\chi_{\lambda}^{G}\chi_{\sigma}^{H})]}
+%  \label{eq:vx}
+\end{equation}
+where $\mathbf{G}$, $\mathbf{N}$, and $\mathbf{H}$ represent different unit cells.
 
-\subsection{HSE force}
+
+So we can get  Hartree-Fock exchange energy , here 1/4 is because exchange energy is always 1/2 of hartree energy (3rd term in Eq. \ref{eq:E_KS}), so $\dfrac{1}{2}*\dfrac{1}{2}=\dfrac{1}{4} $
+ \begin{equation}
+  E^{HFX}=-\frac{1}{4}\sum_{\mu \lambda}\sum_{\mathbf{G}}{ P_{\mu\lambda}^{\mathbf{G}} }  \sum_{\nu\sigma}\sum_{\mathbf{N,H}}
+ P_{\nu\sigma}^\mathbf{H-N}\mathbf{[(\chi_{\mu}^{0}\chi_{\nu}^{N}
+  |\chi_{\lambda}^{G}\chi_{\sigma}^{H})]}
+\end{equation}
+
+
+
+\subsection{HSE total force}
+The PBE part force is calculate directly with siesta, we only write Hartree-Fock Exchange part for HSE force here.
+
+
 For un-spin-polarized systems (nspin=1), the Gradient is divided into two terms:
 \begin{equation}
  \dfrac{\partial{E_{HFX}}}{\partial{R_{I}}}
@@ -79,11 +152,11 @@ The second term need the gradient of ERIs. In the following, we will deal with t
 
 \begin{thebibliography} {99}
 
+
+\bibitem{DFT_KS} W. Kohn and L. Sham, Phys. Rev. {\bf 140}, 1133 (1965).
+\bibitem{DFT_HK} P. Hohenberg and W. Kohn, Phys. Rev. B {\bf 136}, 864 (1964).
+
 \bibitem{Parr} R. G. Parr and W. Yang, \emph{Density Functional Theory of Atoms and Molecules }(Oxford University Press, New York,1989)
-
-\bibitem{DFT_1} P. Hohenberg and W. Kohn, Phys. Rev. B {\bf 136}, 864 (1964).
-\bibitem{DFT_2} W. Kohn and L. Sham, Phys. Rev. {\bf 140}, 1133 (1965).
-
 
 \end{thebibliography}
 
