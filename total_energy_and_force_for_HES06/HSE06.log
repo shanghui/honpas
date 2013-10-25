@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.5.23)  23 OCT 2013 17:57
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.5.23)  25 OCT 2013 18:12
 entering extended mode
  %&-line parsing enabled.
 **HSE06.tex
@@ -235,6 +235,14 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@every@algorithm=\toks25
 \c@algorithm=\count113
 )
+(/usr/share/texmf-texlive/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
 Class revtex4-1 Info: Patching LaTeX tabular. on input line 12.
 
 
@@ -283,17 +291,17 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 28.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
 No file HSE06.bbl.
-[4] (./HSE06.aux) ) 
+[5] (./HSE06.aux) ) 
 Here is how much of TeX's memory you used:
- 4050 strings out of 495061
- 50294 string characters out of 1182621
- 124115 words of memory out of 3000000
- 7193 multiletter control sequences out of 15000+50000
+ 4095 strings out of 495061
+ 50962 string characters out of 1182621
+ 126125 words of memory out of 3000000
+ 7234 multiletter control sequences out of 15000+50000
  14993 words of font info for 57 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 35i,8n,30p,282b,257s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 35i,8n,30p,283b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb
 x10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
 sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/tex
@@ -308,9 +316,9 @@ s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/pub
 lic/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on HSE06.pdf (4 pages, 203975 bytes).
+Output written on HSE06.pdf (5 pages, 211115 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
+ 82 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

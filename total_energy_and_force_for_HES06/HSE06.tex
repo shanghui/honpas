@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{algorithmic}
 \usepackage{algorithm}
-
+\usepackage{color}
 
 
 \begin{document}
@@ -72,6 +72,79 @@ In siesta, using psedopotential, so the $E_{KS}$ in siesta is written as Eq. 53 
 \begin{equation}
 E_{KS}= T + E_{ext}+ E_{hartree} + E_{IJ}+E_{xc} 
 \end{equation} 
+
+\textcolor{blue}{Here I gave a derivation of siesta's Eq(53):} 
+\[
+E_{KS-siesta}=-\dfrac{1}{2}\sum_{i}<\phi_i|\nabla^2|\phi_i> +\sum_{i}<\phi_i|V^{KB}|\phi_i>+\int {\rho^{pseudo}(\mathbf{r})  \sum_{I}V_I^{local}(r)  d\mathbf{r}}+
+\]
+\begin{equation}
+\dfrac{1}{2}\int \int {\dfrac{\rho^{pseudo}(\mathbf{r}) \rho^{pseudo}(\mathbf{r'}) }{|\mathbf{r}-\mathbf{r'} |}  d\mathbf{r}  d\mathbf{r'}} +\dfrac{1}{2}\sum_{I}\sum_{J}{\dfrac{Z^{pseudo}_{I} Z^{pseudo}_{J}}{|\mathbf{R}_{I}-\mathbf{R}_{J} |} }+ E_{xc}(\rho)
+\label{eq:E_KS_siesta}
+\end{equation}
+here all the $\rho^{pseudo}(r)$ and $Z^{pseudo}_I$ and valence contribution, because we have already used pseudo-potential, in which way we only see valence electrons in system. 
+$V_I^{local}(r)$ looks like $-Z^{pseudo}_I/|r-R_I|$ in far distance, but do not diverge near nuclear position. 
+\begin{equation}
+V_I^{local}(r) \approx -Z^{pseudo}_I/|r-R_I|
+\end{equation}
+
+
+\begin{equation}
+U_{IJ}^{local}(R)=\int{ V_I^{local}(r) {\rho}_J^{local}(r-R)} dr 
+\end{equation}
+
+\begin{equation}
+\dfrac{1}{2}\sum_{I}\sum_{J\neq I}{\dfrac{Z^{pseudo}_{I} Z^{pseudo}_{J}}{|\mathbf{R}_{I}-\mathbf{R}_{J} |} }=\dfrac{1}{2}\sum_{I}\sum_{J}U_{IJ}^{local}(R_{IJ})-\dfrac{1}{2}\sum_{I}U_{II}^{local}(0) + \dfrac{1}{2}\sum_{I}\sum_{J\neq I} \delta U_{IJ}^{local}(R_{IJ})
+\end{equation}
+
+
+\begin{equation}
+\dfrac{1}{2}\int \int {\dfrac{\rho^{pseudo}(\mathbf{r}) \rho^{pseudo}(\mathbf{r'}) }{|\mathbf{r}-\mathbf{r'} |}  
+d\mathbf{r}  d\mathbf{r'} } =  \dfrac{1}{2}\int \int {\dfrac{ [\rho^{atom}(r)+\delta\rho(r) ] [\rho^{atom}(r)+\delta\rho(r) ] }{|\mathbf{r}-\mathbf{r'} |}  
+d\mathbf{r}  d\mathbf{r'} }  
+\end{equation}
+
+\begin{equation}
+V^{NA}(r)=V^{local}(r)+V^{atom}(r)
+\end{equation}
+
+So Eq.(\ref{eq:E_KS_siesta}) can be written as:
+\[
+E_{KS-siesta}=
+\]
+\[
+-\dfrac{1}{2}\sum_{i}<\phi_i|\nabla^2|\phi_i> +\sum_{i}<\phi_i|V^{KB}|\phi_i>+
+\int{[\rho^{atom}(r)+\delta\rho(r) ] V^{local}(r)  d\mathbf{r}}+E_{xc}(\rho)
+\]
+\[
++\dfrac{1}{2}\int \int {\dfrac{ [\rho^{atom}(r)+\delta\rho(r) ] [\rho^{atom}(r)+\delta\rho(r) ] }{|\mathbf{r}-\mathbf{r'} |}  
+d\mathbf{r}  d\mathbf{r'} }  
+\]
+\[
++\dfrac{1}{2}\sum_{I}\sum_{J}U_{IJ}^{local}(R_{IJ})-\dfrac{1}{2}\sum_{I}U_{II}^{local}(0) + \dfrac{1}{2}\sum_{I}\sum_{J\neq I} \delta U_{IJ}^{local}(R_{IJ})
+\]
+
+\[
+= -\dfrac{1}{2}\sum_{i}<\phi_i|\nabla^2|\phi_i> +\sum_{i}<\phi_i|V^{KB}|\phi_i>
++E_{xc}(\rho)+\dfrac{1}{2}\int\int {\dfrac{ \delta \rho(r') \delta \rho(r)}{|r-r'|} dr' dr} 
+\]
+\[
+-\dfrac{1}{2}\sum_{I}U_{II}^{local}(0) + \dfrac{1}{2}\sum_{I}\sum_{J\neq I} \delta U_{IJ}^{local}(R_{IJ})
+\] 
+\[
++\int{[V^{local}(r)+V^{atom}(r)]\delta \rho(r) dr   } ==> \int{V^{NA}(r)\delta \rho(r) dr   }
+\]
+\begin{equation}
++\dfrac{1}{2}\sum_{I}\sum_{J}\int{[V^{local}(r)+V^{atom}(r)][\rho^{local}+\rho^{atom} ] dr   }==>  \dfrac{1}{2}\sum_{I}\sum_{J} U_{IJ}(R_{IJ})
+\label{eq:E_KS_siesta_my}
+\end{equation}
+So it is the same as Eq(53) in siesta's paper. 
+\textcolor{red}{Here the idea is the same as Ewald method}, because here $\rho^{local}$ is just like Gaussian charge in Ewald, and
+then the $V^{NA}$ is short ranged and calculated in real space and  $\delta V(r)$  is calculated in moment space.   
+
+
+
+
+
 
 So for HSE total energy, we only add$ E_{HSE}$ to $E_{xc}$ part. 
 The expression for HSE06 is given by: 
