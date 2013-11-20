@@ -1,0 +1,102 @@
+\documentclass[aps,preprint,12pt]{revtex4-1}
+%\documentclass[aip,preprint,12pt]{revtex4-1}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{color}
+
+
+\begin{document}
+
+\title{Total energy and SCF in PWSCF}
+\author{ Honghui Shang}
+\email[Electronic address:\;]{shang@fhi-berlin.mpg.de}
+
+\affiliation{Fritz-Haber-Institut der Max-Planck-Gesellschaft,
+  Faradayweg 4-6, D-14195 Berlin-Dahlem, Germany}
+
+\date{\today}
+
+\begin{abstract}
+The total energy and SCF equation using plane wave basis sett is written here. I have also compared PW basis set with AO basis set. So we can see the difference between 'near-free' electron approximation and tight-binding.   We follow the Kohn-Sham approach \cite{DFT_KS} to
+derive our equations.  The Kohn-Sham ansatz( A mathematical assumption, especially about the form of an 
+unknown function, which is made in order to facilitate solution of an equation or other problem) is to replace the difficult interaction many-body system with this Hamiltonian 
+\begin{equation}
+\hat{H}=-\dfrac{1}{2}\sum_{i}\bigtriangledown^2_{i}-\sum_{i}\sum_{I}\dfrac{Z_I}{|\mathbf{r_i}-\mathbf{R_I}|}
++\dfrac{1}{2}\sum_{i}\sum_{j\neq i}\dfrac{1}{|\mathbf{r_i}-\mathbf{r_j}|}
++\dfrac{1}{2}\sum_{I}\sum_{J\neq I}\dfrac{Z_I Z_J}{|\mathbf{R_I}-\mathbf{R_J}|}
+\end{equation} into a independent-particle problem. What they have been done is to define a ground state
+energy $E_{KS}$, and then derive a Kohn-Sham Sch\"{o}dinger-like equation using Lagrange multipliers or
+Rayleigh-Ritz principle.  In this paper we will show the detailed formula derivation in PW basis set.
+\end{abstract}
+\maketitle
+
+
+\section{METHODS}
+
+
+\subsection{Total energy expressions are the same in both basis set}
+Kohn-Sham wrote the total energy of a many-body system as:
+\[
+E_{KS}=-\dfrac{1}{2}\sum_{i}<\phi_i|\nabla^2|\phi_i>-\int {\rho(\mathbf{r})  \sum_{I}\dfrac{Z_{I}}{|\mathbf{r}-\mathbf{R}_{I}|}  d\mathbf{r}}+
+\]
+\begin{equation}
+ \dfrac{1}{2}\int \int {\dfrac{\rho(\mathbf{r}) \rho(\mathbf{r'}) }{|\mathbf{r}-\mathbf{r'} |}  d\mathbf{r}  d\mathbf{r'}} +\dfrac{1}{2}\sum_{I}\sum_{J}{\dfrac{Z_{I} Z_{J}}{|\mathbf{R}_{I}-\mathbf{R}_{J} |} }+ E_{xc}(\rho)
+\label{eq:E_KS}
+\end{equation}
+\begin{equation}
+= T+E_{ext}+E_{hartree}+E_{IJ}+E_{xc}
+\end{equation}
+
+\subsection{crystal-orbital-SCF equations are the same in both basis set}
+So all the many-body effect go to $E_{xc}(\rho)$ term. Using Lagrange multipliers, we have 
+\begin{equation}
+\dfrac{\delta [E_{KS}-\sum_{i}\epsilon_{i}(<\phi_i|\phi_i> -1)] }
+{\delta \phi_i} =  0 =
+\end{equation}
+\begin{equation}
+\dfrac{\delta T}{\delta \phi_i} + 
+[\dfrac{\delta E_{ext}}{\delta \rho(r)} + \dfrac{\delta E_{hartree}}{\delta \rho(r)} +  \dfrac{\delta E_{xc}}{\delta \rho(r)} ] 
+\dfrac{\delta \rho(r)}{\delta \phi_i}-\epsilon_{i} \phi_i = 
+\end{equation}
+\begin{equation}
+ -\dfrac{1}{2}\nabla^2 \phi_i + 
+[V_{ext}(r)+V_{hartree}+V_{xc}] \phi_i -\epsilon_{i} \phi_i = 0
+\label{eq:ks-equation}
+\end{equation}
+
+So we get Kohn-Sham Sch\"{o}dinger-like equation in Eq. \ref{eq:ks-equation}.
+
+
+\subsection{SCF equations in PW basis set}
+In solid state physics, Bloch theorem stays that all
+the wave function should be Bloch wave function. We can
+express 
+
+
+
+
+
+\section{CONCLUSIONS}
+
+\begin{acknowledgments}
+
+\end{acknowledgments}
+
+
+\begin{thebibliography} {99}
+
+
+\bibitem{DFT_KS} W. Kohn and L. Sham, Phys. Rev. {\bf 140}, 1133 (1965).
+\bibitem{DFT_HK} P. Hohenberg and W. Kohn, Phys. Rev. B {\bf 136}, 864 (1964).
+
+\bibitem{Parr} R. G. Parr and W. Yang, \emph{Density Functional Theory of Atoms and Molecules }(Oxford University Press, New York,1989)
+
+\end{thebibliography}
+
+
+
+\end{document}

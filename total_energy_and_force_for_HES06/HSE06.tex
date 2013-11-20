@@ -38,6 +38,25 @@ Rayleigh-Ritz principle.  In this paper we will show the detailed formula deriva
 
 
 \section{METHODS}
+
+\subsection{possion solver under PBC}
+\begin{table}
+\caption{Possion solver under PBC}
+\begin{tabular}{c|c}
+\hline \hline 
+problem & solution \\
+\hline 
+(1) $V_{static-electric}$ in unit-cell of neutral system & Ewald-1921  \\
+(2)unit cell total energy of nuclei-nuclei interaction & Ewald-Coldwell-Horsfall 1960\\
+(3) $V_{uc}(r)=\int \dfrac{\rho(r')}{|r-r'|} dr'$, \textcolor{red}{equispaced grids} &  FFT poisson solver \\
+(4)  $V_{uc}(r)=\int \dfrac{\rho(r')}{|r-r'|} dr'$, \textcolor{red}{atom-center grids} & MP-poisson solver + Ewald \\ 
+\hline \hline
+\end{tabular}
+ 
+\end{table}
+
+
+
 \subsection{HSE total energy}
 Kohn-Sham wrote the total energy of a many-body system as:
 \[
