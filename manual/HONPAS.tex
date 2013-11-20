@@ -1,0 +1,300 @@
+% Manual for the HONPAS-SIESTA program
+%
+% To generate the printed version:
+%
+% latex HONPAS
+% makeindex   HONPAS  (Optional if you have a current siesta.ind)
+% latex HONPAS
+% [ dvips  HONPAS]
+%
+%
+\documentclass[11pt]{article}
+\usepackage{makeidx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{hyperref}
+% Hyperref setup
+\hypersetup{
+    hyperindex=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=2,
+}
+
+\tolerance 10000
+\textheight 22cm
+\textwidth 16cm
+\oddsidemargin 1mm
+\topmargin -15mm
+
+\makeindex
+
+\parindent=0cm
+\baselineskip=14pt
+\parskip 5pt
+
+\begin{document}
+
+% TITLE PAGE --------------------------------------------------------------
+
+\begin{titlepage}
+
+\begin{center}
+
+\vspace{3cm}
+{\Huge {\bf Order-N quantum chemistry Package for large scale \it ab initio \bf Simulation  }}
+
+\vspace{3cm}
+{\Huge {\bf HONPAS }}
+
+\vspace{1cm}
+{\Large Version 1 }   \\
+\vspace{1cm}
+{\Large November, 2013 }
+
+\vspace{1.5cm}
+
+\hbox{ \hskip 1.5cm
+\begin{tabular}{ll}
+
+{\Large Jinlong Yang} &
+   \Large{\it University of Science and Technology of China} \\ \\
+
+{\Large Hongjun Xiang} &
+   \Large{\it Fudan University} \\ \\
+
+{\Large Honghui Shang} &
+   \Large{\it Fritz Haber Institute} \\ \\
+   
+{\Large Xinming Qin} &
+   \Large{\it University of Science and Technology of China} \\ \\   
+\end{tabular}
+}
+
+
+
+
+\end{center}
+
+\end{titlepage}
+
+% END TITLE PAGE --------------------------------------------------------------
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{INTRODUCTION}
+
+
+
+{\sc HONPAS} is based on {\sc SIESTA}, but adding:
+
+\begin{itemize}
+\item Density matrix purification methods to make construction of the density matrix in $O(N)$ operations
+
+\item Maximally localized Wannier functions
+
+\item Density-matrix perturbation theory
+
+\item Hartree-Fock method for molecule or solid 
+
+\item Hybrid functionals: B3LYP, PBE0, HSE06  for molecule or solid 
+
+\item MP2 method for molecule or solid 
+
+\item All the new feathers are compiled for serial or parallel execution (under MPI).
+
+\end{itemize}
+
+
+\vspace{0.5cm}
+{\large {\bf References:} }
+
+\begin{itemize}
+
+\item  "Spin-unrestricted linear-scaling electronic structure theory and its application to magnetic carbon-doped boron nitride nanotubes"
+
+Xiang, HJ, Liang, WZ, Yang, JL, Hou, JG and Zhu, QS. J. Chem. Phys., {\bf 123}, 124105  (2005)
+
+{\bf Density matrix purification methods implemented in {\sc HONPAS} }
+
+
+\item "Linear scaling calculation of maximally localized Wannier functions with atomic basis set"
+
+Xiang, HJ, Yang, JL, Hou, JG and Zhu, QS. J. Chem. Phys., {\bf 126}, 244707 (2007)
+
+{\bf Calculation of maximally localized Wannier functions in 
+{\sc HONPAS} }
+
+\item "Linear-scaling density matrix perturbation treatment of electric fields in solids"
+
+Xiang, HJ, Yang, JL, Hou, JG and Zhu, QS.  Phys. Rev. Lett., {\bf 97}, 266402 (2006)
+
+{\bf Density matrix perturbation theory implemented in {\sc HONPAS} } 
+
+
+
+
+%shanghui
+\item "Implementation of Exact Exchange with Numerical Atomic Orbitals"
+H. H. Shang, Z. Y. Li, and J. L. Yang, J. Phys. Chem. A 114, 1039 (2010)
+
+{\bf HF and B3LYP in {\sc HONPAS}}
+
+
+\item "Implementation of screened hybrid density functional for periodic systems with numerical atomic orbitals: Basis function fitting and integral screening"
+H. H. Shang, Z. Y. Li, and J. L. Yang, J. Chem. Phys. {\bf 135}, 034110 (2011)
+
+{\bf HSE06 in {\sc HONPAS}}
+
+
+\item "Linear scaling electronic structure calculations with numerical atomic basis set"
+
+H. H. Shang, Z. Y. Li, and J. L. Yang, Int. Rev. Phys. Chem. {\bf 29}, 665 (2010).
+
+{\bf Review for O(N) method with numerical atomic basis set}
+
+\end{itemize}
+
+
+\section{COMPILATION}
+
+If you just want to compile the program, go to {\tt Obj} and issue the command:
+
+\begin{verbatim}
+  sh ../Src/obj_setup.sh
+\end{verbatim}
+
+Then use:
+
+\begin{verbatim}
+  make HONPAS
+\end{verbatim}
+
+The executable should work for any job. 
+
+
+
+\section{DETAILED DESCRIPTION OF PROGRAM OPTIONS}
+
+As we based on {\sc Siesta}, the input files are the same except the following: 
+
+\subsection{Order(N) calculations}
+\begin{description}
+\itemsep 10pt
+\parsep 0pt
+\item[{\bf ON purification }] 
+Choice of purification method
+\begin{itemize}
+\item {\tt TC2}
+\end{itemize}
+\end{description}
+
+\subsection{Maximally localized Wannier functions}
+\begin{description}
+\itemsep 10pt
+\parsep 0pt
+\item[{\bf MLWF }]
+Generate maximally localized Wannier functions for molecules.
+\end{description}
+
+
+
+\vspace{5pt}
+\subsection{Hartree-Fock for exact exchange energy}
+
+\begin{description}
+\itemsep 10pt
+\parsep 0pt
+
+\item[{\bf HF}] ({\it string}): 
+Make a Hartree-Fock calculation for molecule or solid
+
+\begin{itemize} 
+\item {\tt numeric}  
+Using isf-poisson solver to calculate ERI numerically. 
+
+\item {\tt NAO2GTO}
+Using more efficient NAO2GTO scheme to calculate ERI.
+\end{itemize}
+{\it Default value:} {\tt NAO2GTO}
+
+\end{description}
+
+
+
+
+\vspace{5pt}
+\subsection{Hybrid Exchange-correlation functionals}
+
+\begin{description}
+\itemsep 10pt
+\parsep 0pt
+
+\item[{\bf XC.functional}] ({\it string}):
+\index{XC.functional@{\bf XC.functional}}
+Exchange-correlation functional type.  As we add hybrid
+functionals, so the default is 
+{\tt GGA} (Generalized Gradient Approximation).
+
+
+{\it Default value:} {\tt GGA}
+
+
+\item[{\bf XC.authors}] ({\it string}):
+\index{XC.authors@{\bf XC.authors}}
+Particular parametrization of the
+exchange-correlation functional. Options are:
+\begin{itemize}
+
+
+\item {\tt B3LYP}   \index{B3LYP}
+
+Ref: Becke, A. D. J. Chem. Phys. {\bf 98}, 5648 (1993)
+
+
+\item {\tt HSE06}   \index{HSE06}
+
+Ref: A. V. Krukau, O. A. Vydrov, A. F. Izmaylov and G. E. Scuseria,
+J. Chem. Phys. {\bf 125}, 224106 (2006).
+
+
+\end{itemize}
+
+{\it Default value:} {\tt HSE06}
+
+
+
+\end{description}
+
+
+\vspace{5pt}
+\subsection{Second-order M\o{}ller–Plesset perturbation for
+correlation energy}
+\begin{description}
+\itemsep 10pt
+\parsep 0pt
+
+\item[{\bf MP2}] 
+Make a Hartree-Fock calculation for molecule or solid.
+
+{\it Default value:} {\tt MP2}
+
+\end{description}
+
+
+\
+
+
+
+
+
+
+
+\addcontentsline{toc}{section}{Index}
+\printindex
+
+\end{document}
+

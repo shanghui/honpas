@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}INTRODUCTION}{2}{section.1}
+\contentsline {section}{\numberline {2}COMPILATION}{3}{section.2}
+\contentsline {section}{\numberline {3}DETAILED DESCRIPTION OF PROGRAM OPTIONS}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Order(N) calculations}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Maximally localized Wannier functions}{3}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Hartree-Fock for exact exchange energy}{3}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Hybrid Exchange-correlation functionals}{4}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Second-order M\o {}ller–Plesset perturbation for correlation energy}{4}{subsection.3.5}
+\contentsline {section}{Index}{4}{subsection.3.5}
